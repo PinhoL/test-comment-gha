@@ -15,7 +15,7 @@ jobs:
           # cache: "yarn"
           node-version-file: ".nvmrc"
       - name: Run test coverage
-        run: npm run test2
+        run: npm install && npm run test2
         # run: sh tools/ci/coverage.sh
       - name: Message success
         if: ${{ success() }}
