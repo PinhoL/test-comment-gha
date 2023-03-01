@@ -12,9 +12,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-            node-version: 16
-        #   cache: "yarn"
-        #   node-version-file: ".nvmrc"
+          cache: "yarn"
+          node-version-file: ".nvmrc"
       - name: Run test coverage
         run: npm run test2
         # run: sh tools/ci/coverage.sh
