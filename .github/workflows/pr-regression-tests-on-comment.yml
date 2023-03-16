@@ -30,39 +30,3 @@ jobs:
         if: contains(github.event.comment.body, '--base-url')
         run: |
           DOCKER_BUILDKIT=1 docker-compose -f apps/web/Docker/tests/docker-compose.yml -f apps/web/Docker/tests/docker-compose.regression.yml up --exit-code-from testexecutor --build
-
-      - name: Retrieve Allure history
-        uses: actions/checkout@v2
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Generate Allure report
-        id: allure-report
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          allure_results: reports/allure-results
-          subfolder: regression
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-
-      - name: Deploy Allure report to gh-pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./allure-history
-
-      - name: Post link to the report
-        if: always()
-        uses: Sibz/github-status-action@v1
-        with:
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: 'Regression Tests Allure Report'
-          state: 'success'
-          target_url: https://Flutter-Global.github.io/tbd/pr-regression-tests/${{ github.run_number }}
