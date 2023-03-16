@@ -1,0 +1,62 @@
+name: pr-regression-tests-on-comment
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr_regression_tests:
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/regression-tests'}}
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version-file: ".nvmrc"
+
+      - name: Run regression-tests on pr comment
+        run: |
+          npm install -g yarn@1.22.10
+          scl enable devtoolset-7 "yarn install"
+          cd apps/web
+          yarn test:regression:grid:phone
+          yarn test:regression:report:generate
+
+      - name: Retrieve Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Generate Allure report
+        id: allure-report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: reports/allure-results
+          subfolder: regression
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy Allure report to gh-pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./allure-history
+
+      - name: Post link to the report
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: 'Regression Tests Allure Report'
+          state: 'success'
+          target_url: https://Flutter-Global.github.io/tbd/pr-regression-tests/${{ github.run_number }}
