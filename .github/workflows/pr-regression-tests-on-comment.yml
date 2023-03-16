@@ -6,7 +6,7 @@ on:
 
 jobs:
   pr_regression_tests:
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/regression-tests' }}
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
