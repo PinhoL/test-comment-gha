@@ -4,9 +4,6 @@ on:
   issue_comment:
     types: [created]
 
-env:
-  BASE_URL: ${{ github.event.comment.body }}
-
 jobs:
   pr_regression_tests:
     runs-on: ubuntu-latest
@@ -26,7 +23,10 @@ jobs:
           exit 1
 
       - name: Run regression-tests against TBDFE
-        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests --base-url') }}
+        if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests --base-url=') }}
+        env:
+          BASE_URL: ${{ github.event.comment.body }}
+        id: split
         run: |
-          echo $BASE_URL.slice(29)
+          echo "::set-output name=fragment::${BASE_URL##*=}"
           echo "corri com base-url"
