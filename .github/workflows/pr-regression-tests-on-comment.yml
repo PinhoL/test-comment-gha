@@ -28,5 +28,5 @@ jobs:
           BASE_URL: ${{ github.event.comment.body }}
         id: split
         run: |
-          echo "::set-output name=fragment::${BASE_URL##*=}"
+          echo "fragment=${BASE_URL##*=}" >> $GITHUB_OUTPUT
           echo "corri com base-url"
