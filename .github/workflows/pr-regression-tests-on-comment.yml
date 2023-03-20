@@ -29,4 +29,5 @@ jobs:
         id: split
         run: |
           echo "fragment=${BASE_URL##*=}" >> $GITHUB_OUTPUT
+          echo $GITHUB_OUTPUT
           echo "corri com base-url"
