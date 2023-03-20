@@ -28,5 +28,5 @@ jobs:
       - name: Run regression-tests against TBDFE
         if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests --base-url') }}
         run: |
-          echo $BASE_URL
+          echo $BASE_URL.slice(29)
           echo "corri com base-url"
