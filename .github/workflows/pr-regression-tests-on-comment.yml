@@ -26,8 +26,8 @@ jobs:
         if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests --base-url=') }}
         env:
           BASE_URL: ${{ github.event.comment.body }}
-        id: split
         run: |
-          echo "fragment=${BASE_URL##*=}" >> $GITHUB_OUTPUT
-          echo $GITHUB_OUTPUT
+          echo $BASE_URL
+          URL=${PR_URL##*=}
+          echo "test url: $URL"
           echo "corri com base-url"
