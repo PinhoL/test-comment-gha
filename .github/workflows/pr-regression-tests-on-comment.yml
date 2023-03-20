@@ -28,6 +28,6 @@ jobs:
           BASE_URL: ${{ github.event.comment.body }}
         run: |
           echo $BASE_URL
-          URL=${PR_URL##*=}
+          URL=${BASE_URL##*=}
           echo "test url: $URL"
           echo "corri com base-url"
