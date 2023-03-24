@@ -12,11 +12,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Checkout branch
-        run: |
-          gh pr checkout ${{ github.event.issue.number }}
+      - name: Checkout Pull Request
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_URL="${{ github.event.issue.pull_request.url }}"
+          PR_NUM=${PR_URL##*/}
+          echo "Checking out from PR #$PR_NUM based on URL: $PR_URL"
+          hub pr checkout $PR_NUM
       - uses: actions/setup-node@v3
         with:
           # cache: "yarn"
