@@ -32,3 +32,8 @@ jobs:
           URL=${BASE_URL##*=}
           echo "test url: $URL"
           echo "corri com base-url"
+          
+      - name: Output report
+        if: true
+        run: |
+          echo "Report"
