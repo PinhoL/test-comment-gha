@@ -19,6 +19,7 @@ jobs:
 
       - name: Run regression-tests
         if: ${{ !contains(github.event.comment.body, '--base-url') }}
+        continue-on-error: false
         run: |
           echo "corri sem base-url"
           exit 1
@@ -34,6 +35,5 @@ jobs:
           echo "corri com base-url"
           
       - name: Output report
-        if: success()
         run: |
           echo "Report"
