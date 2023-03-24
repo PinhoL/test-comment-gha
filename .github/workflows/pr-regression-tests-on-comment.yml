@@ -9,19 +9,26 @@ jobs:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Github API Request
-        id: request
-        uses: octokit/request-action@v2.0.2
+      - name: Get PR details
+        uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+      - name: Set commit status as pending
+        uses: myrotvorets/set-commit-status-action@master
         with:
-          route: ${{ github.event.issue.pull_request.url }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout PR Branch
-        uses: actions/checkout@v3
-        with:
+          sha: ${{ steps.branch.outputs.head_sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{fromJson(steps.request.outputs.data).head.repo.full_name}}
-          ref: ${{fromJson(steps.request.outputs.data).head.ref}}
+          status: pending
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+
       - uses: actions/setup-node@v3
         with:
           # cache: "yarn"
