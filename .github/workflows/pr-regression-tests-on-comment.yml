@@ -15,7 +15,7 @@ jobs:
       - name: Set commit status as pending
         uses: myrotvorets/set-commit-status-action@master
         with:
-          sha: ${{ steps.branch.outputs.head_sha }}
+          sha: ${{ steps.branch.outputs.head.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           status: pending
       - uses: actions/checkout@v3
