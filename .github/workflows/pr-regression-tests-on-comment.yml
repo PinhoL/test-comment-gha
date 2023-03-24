@@ -35,5 +35,6 @@ jobs:
           echo "corri com base-url"
           
       - name: Output report
+        if: success() || failure()
         run: |
           echo "Report"
