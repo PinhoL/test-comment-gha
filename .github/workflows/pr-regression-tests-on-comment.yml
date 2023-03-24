@@ -7,7 +7,6 @@ on:
 jobs:
   pr_regression_tests:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
-    continue-on-error: false
     runs-on: ubuntu-latest
     steps:
       - name: Get PR details
@@ -57,3 +56,10 @@ jobs:
       - name: Output report
         run: |
           echo "Report"
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: 3
+          body: |
+            This is a test comment
