@@ -7,6 +7,7 @@ on:
 jobs:
   pr_regression_tests:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
+    continue-on-error: false
     runs-on: ubuntu-latest
     steps:
       - name: Get PR details
