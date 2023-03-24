@@ -9,17 +9,19 @@ jobs:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Github API Request
+        id: request
+        uses: octokit/request-action@v2.0.2
         with:
-          fetch-depth: 0
-      - name: Checkout Pull Request
+          route: ${{ github.event.issue.pull_request.url }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PR_URL="${{ github.event.issue.pull_request.url }}"
-          PR_NUM=${PR_URL##*/}
-          echo "Checking out from PR #$PR_NUM based on URL: $PR_URL"
-          hub pr checkout $PR_NUM
+      - name: Checkout PR Branch
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{fromJson(steps.request.outputs.data).head.repo.full_name}}
+          ref: ${{fromJson(steps.request.outputs.data).head.ref}}
       - uses: actions/setup-node@v3
         with:
           # cache: "yarn"
