@@ -24,6 +24,7 @@ jobs:
           exit 1
 
       - name: Run regression-tests against TBDFE
+        id: test
         if: ${{ contains(github.event.comment.body, '--base-url') }}
         env:
           BASE_URL: ${{ github.event.comment.body }}
@@ -34,6 +35,6 @@ jobs:
           echo "corri com base-url"
           
       - name: Output report
-        if: success() || failure()
+        if: ${{ steps.test.outputs.result == success() || failure() }}
         run: |
           echo "Report"
