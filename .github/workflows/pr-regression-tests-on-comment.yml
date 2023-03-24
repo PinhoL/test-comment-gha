@@ -5,7 +5,7 @@ on:
     types: [created]
 
 env:
-  GITHUB_PR_NUMBER: ${{github.event.issue.pull_request.number}}
+  GITHUB_PR_NUMBER: ${{github.event.issue.number}}
 
 jobs:
   pr_regression_tests:
