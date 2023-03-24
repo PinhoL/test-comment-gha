@@ -4,6 +4,9 @@ on:
   issue_comment:
     types: [created]
 
+env:
+  GITHUB_PR_NUMBER: ${{github.event.pull_request.number}}
+
 jobs:
   pr_regression_tests:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
@@ -60,6 +63,6 @@ jobs:
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v2
         with:
-          issue-number: ${{github.event.number}}
+          issue-number: $GITHUB_PR_NUMBER
           body: |
             This is a test comment
