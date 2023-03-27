@@ -44,7 +44,7 @@ jobs:
 
       - name: Output report
         run: |
-          echo "report $GITHUB_OUTPUT"
+          echo "report ${{steps.step.outputs.test}}"
 
       - name: Message
         uses: actions/github-script@v5
