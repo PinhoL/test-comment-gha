@@ -42,7 +42,7 @@ jobs:
           exit 1
 
       - name: Output report
-        if: steps.step2.outcome == success() || failure()
+        if: (steps.step2.outcome == success() || failure())
         run: |
           echo "report ${{steps.step2.outcome}}"
 
@@ -51,7 +51,6 @@ jobs:
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          debug: true
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
