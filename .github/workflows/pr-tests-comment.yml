@@ -24,14 +24,6 @@ jobs:
         with:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
-      - name: Set final commit status
-        uses: myrotvorets/set-commit-status-action@master
-        if: always()
-        with:
-          sha: ${{ steps.comment-branch.outputs.head_sha }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: failure
-
       - uses: actions/setup-node@v3
         with:
           # cache: "yarn"
@@ -42,3 +34,11 @@ jobs:
         run: |
           echo "corri sem base-url"
           exit 1
+          
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{job.status}}
