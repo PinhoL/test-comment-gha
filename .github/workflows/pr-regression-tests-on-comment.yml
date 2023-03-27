@@ -37,21 +37,7 @@ jobs:
           echo "report ${{steps.step2.outcome}}"
 
       - name: Message Success
-        if: success()
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `Tests job marked as ${{steps.step2.outcome}}
-              Allure report link: www.test.com`
-            })
-            
-      - name: Message Failure
-        if: failure()
+        if: success() || failure()
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
