@@ -7,8 +7,6 @@ jobs:
   pr_regression_tests:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
     runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.step.outputs.test }}
     steps:
       - name: Get PR details
         uses: xt0rted/pull-request-comment-branch@v1
@@ -37,17 +35,17 @@ jobs:
 
       - name: Run regression-tests against TBDFE
         if: ${{ contains(github.event.comment.body, '--base-url') }}
+        id: step
         run: |
           echo "corri com url"
+          echo "test=${{job.status}}" >> "$GITHUB_OUTPUT"
           exit 1
 
       - name: Output report
-        if: ${{ steps.step.outputs.test == 'exit 1'}}
         run: |
-          echo "report"
+          echo "report $GITHUB_OUTPUT"
 
       - name: Message
-        if: ${{ steps.step.outputs.test == 'exit 1'}}
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
