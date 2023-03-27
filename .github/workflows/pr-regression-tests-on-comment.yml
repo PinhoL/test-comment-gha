@@ -36,6 +36,7 @@ jobs:
 
       - name: Run regression-tests
         if: ${{ !contains(github.event.comment.body, '--base-url') }}
+        continue-on-error: false
         run: |
           echo "corri sem base-url"
           exit 1
@@ -52,19 +53,13 @@ jobs:
           exit 1
           
       - name: Output report
+        continue-on-error: true
         run: |
           echo "Report"
-
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          issue-number: ${{github.event.issue.number}}
-          body: |
-            This is a test comment
             
       - name: Message
         uses: actions/github-script@v5
+        continue-on-error: true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -73,4 +68,4 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '👋 FAIL'
-            })      
+            })
