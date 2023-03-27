@@ -56,7 +56,7 @@ jobs:
       - name: Output report
         if: success() || failure()
         run: |
-          echo $ {{ steps.id.outputs.result }}
+          echo $ {{ steps.test.outputs.result }}
             
       - name: Message
         if: success() || failure()
