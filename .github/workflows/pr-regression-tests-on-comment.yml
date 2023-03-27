@@ -38,13 +38,12 @@ jobs:
         id: step
         run: |
           echo "corri com url"
-          echo "test=${{steps.step.outcome}}" >> "$GITHUB_OUTPUT"
           exit 1
 
       - name: Output report
         if: always()
         run: |
-          echo "report ${{steps.step.outputs.test}}"
+          echo "report ${{steps.step.outcome}}"
 
       - name: Message
         uses: actions/github-script@v5
