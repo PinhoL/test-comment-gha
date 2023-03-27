@@ -1,15 +1,12 @@
 name: pr-regression-tests-on-comment
 
 on:
-  push:
-    branches:
-      - test-rt-pr
-# issue_comment:
-# types: [created]
+  issue_comment: 
+    types: [created]
 
 jobs:
   pr_regression_tests:
-    # if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
     runs-on: ubuntu-latest
     steps:
       - name: Get PR details
@@ -38,7 +35,7 @@ jobs:
           node-version-file: ".nvmrc"
 
       - name: Run regression-tests
-        # if: ${{ !contains(github.event.comment.body, '--base-url') }}
+        if: ${{ !contains(github.event.comment.body, '--base-url') }}
         continue-on-error: false
         run: |
           echo "corri sem base-url"
