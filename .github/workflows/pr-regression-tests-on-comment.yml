@@ -45,8 +45,8 @@ jobs:
         run: |
           echo "report ${{steps.step.outcome}}"
 
-      - name: Message Success
-        if: ${{steps.step.outcome == success()}}
+      - name: Message
+        if: ${{steps.step.outcome == success() || failure()}}
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -56,19 +56,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: '👋 Success'
-            })
-            
-      - name: Message Failure
-        if: ${{steps.step.outcome == failure()}}
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋 Failed'
             })
 
       - name: Set final commit status
