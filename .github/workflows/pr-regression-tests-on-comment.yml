@@ -1,7 +1,6 @@
-name: pr-regression-tests-on-comment
-
+name: pr-regression-tests-on-comment-new
 on:
-  issue_comment: 
+  issue_comment:
     types: [created]
 
 jobs:
