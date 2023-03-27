@@ -37,8 +37,10 @@ jobs:
 
       - name: Run regression-tests against TBDFE
         if: ${{ contains(github.event.comment.body, '--base-url') }}
+        continue-on-error: true
         run: |
           echo "corri com url"
+          exit 1
 
       - name: Output report
         if: ${{ steps.step.outputs.test == 'exit 1'}}
