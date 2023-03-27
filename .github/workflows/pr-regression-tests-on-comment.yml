@@ -42,12 +42,12 @@ jobs:
           exit 1
 
       - name: Output report
-        if: steps.step2.outcome == 'success'
+        if: steps.step2.outcome == 'success' || steps.step2.outcome == 'failure'
         run: |
           echo "report ${{steps.step2.outcome}}"
 
       - name: Message
-        if: steps.step2.outcome == 'success'
+        if: steps.step2.outcome == 'success' || steps.step2.outcome == 'failure'
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
