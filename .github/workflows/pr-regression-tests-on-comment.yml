@@ -43,7 +43,6 @@ jobs:
 
       - name: Run regression-tests against TBDFE
         if: ${{ contains(github.event.comment.body, '--base-url') }}
-        continue-on-error: true
         env:
           BASE_URL: ${{ github.event.comment.body }}
         run: |
@@ -54,10 +53,12 @@ jobs:
           exit 1
           
       - name: Output report
+        if: always()
         run: |
           echo "Report"
             
       - name: Message
+        if: always()
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
