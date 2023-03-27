@@ -38,7 +38,7 @@ jobs:
         id: step
         run: |
           echo "corri com url"
-          echo "test=${{job.status}}" >> "$GITHUB_OUTPUT"
+          echo "test=${{steps.step.status}}" >> "$GITHUB_OUTPUT"
           exit 1
 
       - name: Output report
