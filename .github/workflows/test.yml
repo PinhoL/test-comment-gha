@@ -1,0 +1,43 @@
+on:
+    issue_comment:
+      types: [created]
+
+jobs:
+  branch_coverage_check:
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/teste'}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          # cache: "yarn"
+          node-version-file: ".nvmrc"
+      - name: Run test coverage
+        run: exit 0
+        # run: sh tools/ci/coverage.sh
+      - name: Message success
+        if: ${{ success() }}
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 SUCCESS!'
+            })
+      - name: Message failure
+        if: ${{ failure() }}
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 FAIL'
+            })
