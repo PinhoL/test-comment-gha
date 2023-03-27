@@ -29,6 +29,7 @@ jobs:
       - name: Run regression-tests
         if: ${{ !contains(github.event.comment.body, '--base-url') }}
         id: step1
+        continue-on-error: false
         run: |
           echo "corri sem base-url"
           exit 1
@@ -41,9 +42,9 @@ jobs:
           exit 1
 
       - name: Output report
-        if: steps.step2.outcome == 'success' || 'failure'
+        if: ${{steps.step2.outcome == success() || failure()}}
         run: |
-          echo "report ${{steps.step.outcome}}"
+          echo "report ${{steps.step2.outcome}}"
 
       - name: Message
         if: ${{steps.step2.outcome == success() || failure()}}
