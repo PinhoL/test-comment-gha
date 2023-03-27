@@ -5,7 +5,7 @@ on:
 
 jobs:
   pr_regression_tests:
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests') }}
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/regression-tests --base-url') }}
     runs-on: ubuntu-latest
     steps:
       - name: Get PR details
@@ -26,14 +26,14 @@ jobs:
           # cache: "yarn"
           node-version-file: ".nvmrc"
 
-      - name: Run regression-tests against TBDFE
-        if: ${{ contains(github.event.comment.body, '--base-url') }}
+      - name: Run regression-tests
         id: step2
         run: |
           echo "corri com url"
           exit 1
 
       - name: Output report
+        if: success() || failure()
         run: |
           echo "report ${{steps.step2.outcome}}"
 
