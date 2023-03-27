@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="534ee93a-68c0-4c5c-ba2a-4fea45c7567c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/pr-regression-tests-on-comment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/pr-regression-tests-on-comment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
