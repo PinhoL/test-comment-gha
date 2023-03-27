@@ -49,6 +49,7 @@ jobs:
         if: ${{ contains(github.event.comment.body, '--base-url') }}
         env:
           BASE_URL: ${{ github.event.comment.body }}
+        shell: bash
         run: |
           echo $BASE_URL
           URL=${BASE_URL##*=}
