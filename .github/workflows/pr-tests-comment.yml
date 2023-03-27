@@ -1,0 +1,38 @@
+name: pr-tests-comment
+
+on:
+  issue_comment:
+    types: [created]
+   
+jobs:
+  pr_regression_tests:
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/tests-comment') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR details
+        uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+        
+      - name: Set commit status as pending
+        uses: myrotvorets/set-commit-status-action@master
+        with:
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: pending
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+
+      - name: Set final commit status
+        uses: myrotvorets/set-commit-status-action@master
+        if: always()
+        with:
+          sha: ${{ steps.comment-branch.outputs.head_sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+
+      - uses: actions/setup-node@v3
+        with:
+          # cache: "yarn"
+          node-version-file: ".nvmrc"
