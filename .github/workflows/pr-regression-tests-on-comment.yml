@@ -26,14 +26,6 @@ jobs:
           # cache: "yarn"
           node-version-file: ".nvmrc"
 
-      - name: Run regression-tests
-        if: ${{ !contains(github.event.comment.body, '--base-url') }}
-        id: step1
-        continue-on-error: false
-        run: |
-          echo "corri sem base-url"
-          exit 1
-
       - name: Run regression-tests against TBDFE
         if: ${{ contains(github.event.comment.body, '--base-url') }}
         id: step2
@@ -42,12 +34,11 @@ jobs:
           exit 1
 
       - name: Output report
-        if: steps.step2.outcome == 'success' || steps.step2.outcome != 'success'
         run: |
           echo "report ${{steps.step2.outcome}}"
 
       - name: Message Success
-        if: steps.step2.outcome == success()
+        if: success()
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -61,7 +52,7 @@ jobs:
             })
             
       - name: Message Failure
-        if: steps.step2.outcome == failure()
+        if: failure()
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
