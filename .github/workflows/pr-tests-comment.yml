@@ -36,3 +36,10 @@ jobs:
         with:
           # cache: "yarn"
           node-version-file: ".nvmrc"
+          
+      - name: Run regression-tests
+        if: ${{ !contains(github.event.comment.body, '--base-url') }}
+        continue-on-error: false
+        run: |
+          echo "corri sem base-url"
+          exit 1
