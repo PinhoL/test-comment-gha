@@ -28,25 +28,25 @@ jobs:
 
       - name: Run regression-tests
         if: ${{ !contains(github.event.comment.body, '--base-url') }}
-        continue-on-error: false
+        id: step1
         run: |
           echo "corri sem base-url"
           exit 1
 
       - name: Run regression-tests against TBDFE
         if: ${{ contains(github.event.comment.body, '--base-url') }}
-        id: step
+        id: step2
         run: |
           echo "corri com url"
           exit 1
 
       - name: Output report
-        if: ${{steps.step.outcome == success() || failure()}}
+        if: ${{steps.step2.outcome == success() || failure()}}
         run: |
           echo "report ${{steps.step.outcome}}"
 
       - name: Message
-        if: ${{steps.step.outcome == success() || failure()}}
+        if: ${{steps.step2.outcome == success() || failure()}}
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
