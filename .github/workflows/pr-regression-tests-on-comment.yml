@@ -42,6 +42,7 @@ jobs:
           exit 1
 
       - name: Run regression-tests against TBDFE
+        id: test
         if: ${{ contains(github.event.comment.body, '--base-url') }}
         env:
           BASE_URL: ${{ github.event.comment.body }}
@@ -55,7 +56,7 @@ jobs:
       - name: Output report
         if: success() || failure()
         run: |
-          echo "Report"
+          echo $ {{ steps.id.outputs.result }}
             
       - name: Message
         if: success() || failure()
