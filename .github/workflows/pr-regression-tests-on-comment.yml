@@ -47,7 +47,7 @@ jobs:
           echo "report ${{steps.step2.outcome}}"
 
       - name: Message Success
-        if: steps.step2.outcome == 'success'
+        if: success()
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -61,7 +61,7 @@ jobs:
             })
             
       - name: Message Failure
-        if: "!(steps.step2.outcome == 'success')"
+        if: failure()
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
