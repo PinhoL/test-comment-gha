@@ -41,7 +41,7 @@ jobs:
           echo "corri com url"
 
       - name: Output report
-        if: steps.step2.outcome == 'success' || steps.step2.outcome == 'failure'
+        if: steps.step2.outcome == 'success' || steps.step2.outcome != 'success'
         run: |
           echo "report ${{steps.step2.outcome}}"
 
@@ -60,7 +60,7 @@ jobs:
             })
             
       - name: Message Failure
-        if: steps.step2.outcome == 'failure'
+        if: steps.step2.outcome != 'success'
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
