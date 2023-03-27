@@ -41,7 +41,7 @@ jobs:
           exit 1
 
       - name: Output report
-        if: always()
+        if: ${{steps.step.outcome == success || failure}}
         run: |
           echo "report ${{steps.step.outcome}}"
 
