@@ -39,7 +39,6 @@ jobs:
         id: step2
         run: |
           echo "corri com url"
-          exit 1
 
       - name: Output report
         if: steps.step2.outcome == 'success' || steps.step2.outcome == 'failure'
