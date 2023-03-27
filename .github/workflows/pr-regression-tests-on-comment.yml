@@ -1,6 +1,9 @@
 name: pr-regression-tests-on-comment
 
-on: push
+on:
+  push:
+    branches:
+      - test-rt-pr
 # issue_comment:
 # types: [created]
 
