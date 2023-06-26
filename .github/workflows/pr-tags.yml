@@ -2,7 +2,7 @@ name: pr-tags
 on: pull_request
 jobs:
   triage:
-    runs-on: centos-self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
