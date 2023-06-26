@@ -1,0 +1,12 @@
+name: pr-tags
+on: pull_request
+jobs:
+  triage:
+    runs-on: centos-self-hosted
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        uses: actions/labeler@v4
